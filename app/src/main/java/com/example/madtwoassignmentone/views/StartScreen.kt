@@ -28,9 +28,7 @@ object StartDestination : NavigationDestination {
 fun StartScreen(
     navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
-)
-
-{
+) {
     Box(
         contentAlignment = Alignment.BottomStart
     ) {
@@ -41,7 +39,6 @@ fun StartScreen(
                 .background(Color.Black)
         ) {
             Icon(Icons.Default.ExitToApp, contentDescription = "Start")
-
         }
     }
 }

@@ -18,6 +18,8 @@ import com.example.madtwoassignmentone.views.StartScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val myApplication = application as MyApplication
+        val championRepository = myApplication.championRepository
         setContent {
             MadTwoAssignmentOneTheme {
                 val navController = rememberNavController()
@@ -27,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ToDoNavHost(navController = navController)
+                    ToDoNavHost(navController = navController, championRepository = championRepository)
 
                 }
             }
