@@ -1,13 +1,27 @@
 package com.example.madtwoassignmentone.views.home
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.madtwoassignmentone.HomeAddViewModelFactory
-import com.example.madtwoassignmentone.HomeViewModelFactory
+import com.example.madtwoassignmentone.models.ChampionModel
+import com.example.madtwoassignmentone.models.IdGenerator
 import com.example.madtwoassignmentone.navigation.NavigationDestination
 import com.example.madtwoassignmentone.R
 import com.example.madtwoassignmentone.ViewModelProvider
-import com.example.madtwoassignmentone.models.ChampionRepository
+
 
 object HomeAddDestination : NavigationDestination {
     override val route = "home_add"
@@ -15,7 +29,45 @@ object HomeAddDestination : NavigationDestination {
     val routeWithArgs = route
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeAddScreen(navigateBack: () -> Unit, viewModel: HomeAddModel = viewModel(factory = ViewModelProvider().homeAddViewModelFactory)) {
 
+    Scaffold(
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                var championName by remember { mutableStateOf("") }
+
+                OutlinedTextField(
+                    value = championName,
+                    onValueChange = { championName = it },
+                    label = { Text("Champion Name") }
+                )
+
+                var winRate by remember { mutableStateOf("") }
+
+                OutlinedTextField(
+                    value = winRate,
+                    onValueChange = {winRate = it} )
+
+
+                Button(
+                    onClick = {
+                        val champion = ChampionModel(IdGenerator.generateId(), championName, winRate.toInt())
+                        viewModel.addChampion(champion)
+                        navigateBack()
+                    }
+                ) {
+                    Text(text = "Add Champion")
+                }
+            }
+        }
+    )
 }

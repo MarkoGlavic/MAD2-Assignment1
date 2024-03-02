@@ -16,4 +16,5 @@ fun addChampion(champion:ChampionModel){
 }
 }
 
+
 data class HomeAddUiState(val championList: List<ChampionModel> = listOf())
