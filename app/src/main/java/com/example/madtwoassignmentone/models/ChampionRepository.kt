@@ -18,3 +18,11 @@ class ChampionRepository : ChampionStore {
         champions.value += champion
     }
 }
+
+object ChampionRepositoryProvider {
+    private val championRepository: ChampionRepository by lazy { ChampionRepository() }
+
+    fun provideChampionRepository(): ChampionRepository {
+        return championRepository
+    }
+}

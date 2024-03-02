@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -31,10 +32,8 @@ object HomeDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 
 @Composable
-fun HomeScreen(championRepository: ChampionRepository) {
-    val viewModel: HomeViewModel = viewModel(
-        factory = HomeViewModelFactory(championRepository)
-    )
+fun HomeScreen( navigateToAdd: ()->Unit, viewModel: HomeViewModel = viewModel(factory = com.example.madtwoassignmentone.ViewModelProvider().homeViewModelFactory)) {
+
 
     val homeUiState by viewModel.homeUiState.collectAsState()
 
@@ -43,6 +42,12 @@ fun HomeScreen(championRepository: ChampionRepository) {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.app_name)) },
             )
+        },
+
+        floatingActionButton = {
+            FloatingActionButton(onClick = {navigateToAdd() }) {
+
+            }
         },
         content = {
             HomeContent(championList = homeUiState.championList)

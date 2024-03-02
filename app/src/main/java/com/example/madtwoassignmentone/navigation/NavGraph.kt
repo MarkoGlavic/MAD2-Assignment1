@@ -11,6 +11,8 @@
     import com.example.madtwoassignmentone.models.ChampionRepository
     import com.example.madtwoassignmentone.views.StartDestination
     import com.example.madtwoassignmentone.views.StartScreen
+    import com.example.madtwoassignmentone.views.home.HomeAddDestination
+    import com.example.madtwoassignmentone.views.home.HomeAddScreen
     import com.example.madtwoassignmentone.views.home.HomeDestination
     import com.example.madtwoassignmentone.views.home.HomeScreen
 
@@ -37,9 +39,18 @@
                 )
             }
             composable(route = HomeDestination.route) {
-                HomeScreen(championRepository)
+                HomeScreen(navigateToAdd = {
+                    navController.navigate(HomeAddDestination.route)
+                }
+
+                )
+
             }
+            composable(route = HomeAddDestination.routeWithArgs)
+            {
+                HomeAddScreen(navigateBack = {navController.popBackStack()}
+                )
             }
         }
-
+    }
 
