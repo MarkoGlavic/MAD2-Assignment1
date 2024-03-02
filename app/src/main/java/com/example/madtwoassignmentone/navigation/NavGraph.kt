@@ -15,6 +15,10 @@
     import com.example.madtwoassignmentone.views.home.HomeAddScreen
     import com.example.madtwoassignmentone.views.home.HomeDestination
     import com.example.madtwoassignmentone.views.home.HomeScreen
+    import com.example.madtwoassignmentone.views.role.RoleAddDestination
+    import com.example.madtwoassignmentone.views.role.RoleAddScreen
+    import com.example.madtwoassignmentone.views.role.RoleDestination
+    import com.example.madtwoassignmentone.views.role.RoleScreen
 
 
     /**
@@ -35,9 +39,17 @@
         ) {
             composable(route = StartDestination.route) {
                 StartScreen(
-                    navigateToHome = { navController.navigate(HomeDestination.route) }
+                    navigateToHome = { navController.navigate(RoleDestination.route) }
                 )
             }
+            composable(route = RoleDestination.route){
+                RoleScreen(navigateToAdd = { navController.navigate(RoleAddDestination.route) })
+            }
+            composable(route=RoleAddDestination.routeWithArgs){
+                RoleAddScreen(navigateBack = { navController.popBackStack() })
+            }
+            
+
             composable(route = HomeDestination.route) {
                 HomeScreen(navigateToAdd = {
                     navController.navigate(HomeAddDestination.route)

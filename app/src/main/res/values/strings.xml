@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MadTwoAssignmentOne</string>
     <string name="add_champion">Add Champion</string>
+    <string name="add_role">Add Role</string>
     <string name="no_champions">No Champions Added</string>
 
 </resources>
