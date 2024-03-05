@@ -30,11 +30,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.madtwoassignmentone.BottomBar
 import com.example.madtwoassignmentone.R
+import com.example.madtwoassignmentone.TopBar
 import com.example.madtwoassignmentone.ViewModelProvider
 import com.example.madtwoassignmentone.models.ChampionModel
 import com.example.madtwoassignmentone.models.RoleModel
 import com.example.madtwoassignmentone.navigation.NavigationDestination
+import com.example.madtwoassignmentone.views.home.HomeDestination
 import com.example.madtwoassignmentone.views.home.HomeViewModel
 
 object RoleDestination : NavigationDestination {
@@ -56,7 +59,15 @@ fun RoleScreen(
 
     Scaffold(
         topBar = {
+            TopBar(
+                title = stringResource(HomeDestination.titleRes),
+                canNavigateBack = true,
 
+            )
+        },
+
+        bottomBar = {
+            BottomBar()
         },
 
         floatingActionButton = {
