@@ -58,15 +58,18 @@ fun ToDoNavHost(
                 type = NavType.LongType
             })
         ) {
-
-
             HomeScreen(navigateToAdd = {
                 navController.navigate("${HomeAddDestination.route}/$it")
-            }
+            },
+                navigateBack = { navController.popBackStack() }
 
             )
         }
-        composable(route = HomeAddDestination.routeWithArgs)
+        composable(route = HomeAddDestination.routeWithArgs,
+            arguments = listOf(navArgument(HomeAddDestination.championIdArg) {
+                type = NavType.LongType
+            })
+        )
         {
             HomeAddScreen(navigateBack = {navController.popBackStack()}
             )

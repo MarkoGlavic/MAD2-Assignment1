@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -63,7 +65,7 @@ viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModel
         topBar = {
             TopBar(
                 title = stringResource(HomeDestination.titleRes),
-                canNavigateBack = true,
+                canNavigateBack = false,
 
                 )
         },
@@ -85,8 +87,16 @@ viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModel
         )
         {
             HomeBody(roleList = roleUiState.roleList, onItemClick = navigateToRole, modifier = modifier.padding(innerPadding))
+
+
         }
+
+
+
+
     }
+
+
 
 
 }
@@ -96,7 +106,11 @@ viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModel
 @Composable
 private fun HomeBody(
     roleList: List<RoleModel>, onItemClick: (Long) -> Unit, modifier: Modifier = Modifier
-) {
+
+
+)
+
+{
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -165,5 +179,27 @@ private fun Role(
             )
 
         }
+    }
+
+    @Composable
+    fun DeleteConfirmationDialog(
+        onDeleteConfirm: () -> Unit,
+        onDeleteCancel: () -> Unit,
+        modifier: Modifier = Modifier
+    ) {
+        AlertDialog(onDismissRequest = { },
+            title = { Text(stringResource(R.string.attention)) },
+            text = { Text(stringResource(R.string.delete_question)) },
+            modifier = modifier,
+            dismissButton = {
+                TextButton(onClick = onDeleteCancel) {
+                    Text(stringResource(R.string.no))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = onDeleteConfirm) {
+                    Text(stringResource(R.string.yes))
+                }
+            })
     }
 }

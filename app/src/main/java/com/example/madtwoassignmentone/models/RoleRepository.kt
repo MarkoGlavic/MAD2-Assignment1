@@ -22,9 +22,14 @@ class RoleRepository : RoleStore {
 
     override fun getItemStream(long: Long): Flow<RoleModel?> {
         return flow {
-            // Emit the current value of roles
             emit(roles.value[long.toInt()])}
         }
+
+    override fun delete(roleId: Long) {
+        roles.value = roles.value.filterNot { it.id == roleId }
+
+    }
+
 }
 
 object RoleRepositoryProvider {

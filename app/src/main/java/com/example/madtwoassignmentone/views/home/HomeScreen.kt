@@ -41,16 +41,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.madtwoassignmentone.BottomBar
 import com.example.madtwoassignmentone.ViewModelProvider
 import com.example.madtwoassignmentone.views.home.HomeViewModel
 import com.example.madtwoassignmentone.R
+import com.example.madtwoassignmentone.TopBar
 import com.example.madtwoassignmentone.models.ChampionModel
 import com.example.madtwoassignmentone.navigation.NavigationDestination
 import com.example.madtwoassignmentone.views.home.HomeAddModel
 
 
 object HomeDestination : NavigationDestination {
-    override val route = "movie_details"
+    override val route = "home"
     override val titleRes = R.string.app_name
     const val championId = "championId"
     val routeWithArgs = "$route/{$championId}"
@@ -61,6 +63,7 @@ object HomeDestination : NavigationDestination {
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navigateToAdd: (Long) -> Unit,
+    navigateBack: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = ViewModelProvider().homeViewModelFactory))
 {
     val homeUiState by viewModel.homeUiState.collectAsState()
@@ -69,12 +72,20 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
+            TopBar(
+                title = stringResource(HomeDestination.titleRes),
+                canNavigateBack = true,
+                navigateUp = navigateBack
+                )
+        },
 
+        bottomBar = {
+            BottomBar()
         },
 
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {navigateToAdd}  ) {
+                onClick = {navigateToAdd(0) } ) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }

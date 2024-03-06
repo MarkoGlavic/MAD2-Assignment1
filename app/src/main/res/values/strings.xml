@@ -10,6 +10,12 @@
     <string name="ok">OK</string>
     <string name="back_button">Back</string>
     <string name="no_roles">No Roles Added</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="attention">Attention</string>
+    <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="delete">Delete</string>
+
 
 
 
