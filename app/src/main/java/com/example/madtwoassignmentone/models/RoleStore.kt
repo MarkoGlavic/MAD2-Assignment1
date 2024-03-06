@@ -7,4 +7,6 @@ interface RoleStore {
     fun findOne(id: Long): RoleModel?
     fun create(role : RoleModel)
 
+    fun getItemStream(long: Long): Flow<RoleModel?>
+
 }

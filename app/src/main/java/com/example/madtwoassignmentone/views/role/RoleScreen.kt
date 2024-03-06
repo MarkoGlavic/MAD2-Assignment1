@@ -50,7 +50,9 @@ object RoleDestination : NavigationDestination {
 fun RoleScreen(
     modifier: Modifier = Modifier,
     navigateToAdd: () -> Unit,
-    viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModelFactory)
+    navigateToRole:(Long) -> Unit,
+
+viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModelFactory)
 )
 {
     val roleUiState by viewModel.roleUiState.collectAsState()
@@ -63,7 +65,7 @@ fun RoleScreen(
                 title = stringResource(HomeDestination.titleRes),
                 canNavigateBack = true,
 
-            )
+                )
         },
 
         bottomBar = {
@@ -82,7 +84,7 @@ fun RoleScreen(
             modifier = modifier.padding(innerPadding)
         )
         {
-            HomeBody(roleList = roleUiState.roleList, onItemClick = {}, modifier = modifier.padding(innerPadding))
+            HomeBody(roleList = roleUiState.roleList, onItemClick = navigateToRole, modifier = modifier.padding(innerPadding))
         }
     }
 
@@ -93,7 +95,7 @@ fun RoleScreen(
 
 @Composable
 private fun HomeBody(
-    roleList: List<RoleModel>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
+    roleList: List<RoleModel>, onItemClick: (Long) -> Unit, modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,7 +103,7 @@ private fun HomeBody(
     ) {
         if (roleList.isEmpty()) {
             Text(
-                text = stringResource(R.string.no_champions),
+                text = stringResource(R.string.no_roles),
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
@@ -110,7 +112,7 @@ private fun HomeBody(
         } else {
             RoleList(
                 roleList = roleList,
-                onItemClick = { },
+                onItemClick = { onItemClick(it.id)},
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
             )
         }
@@ -121,15 +123,18 @@ private fun HomeBody(
 private fun RoleList(
     roleList: List<RoleModel>, onItemClick: (RoleModel) -> Unit, modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(   columns = GridCells.Adaptive(150.dp),
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(1), // Set only one column to have one entry per row
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(4.dp)
     ) {
         items(items = roleList, key = { it.id }) { role ->
-            Role(role = role,
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.padding_small))
+            Role(
+                role = role,
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))
                     .clickable { onItemClick(role) })
+
+
         }
     }
 }

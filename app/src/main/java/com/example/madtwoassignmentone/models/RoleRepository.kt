@@ -2,6 +2,7 @@ package com.example.madtwoassignmentone.models
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
 
 
 class RoleRepository : RoleStore {
@@ -18,6 +19,12 @@ class RoleRepository : RoleStore {
     override fun create(role: RoleModel) {
         roles.value += role
     }
+
+    override fun getItemStream(long: Long): Flow<RoleModel?> {
+        return flow {
+            // Emit the current value of roles
+            emit(roles.value[long.toInt()])}
+        }
 }
 
 object RoleRepositoryProvider {

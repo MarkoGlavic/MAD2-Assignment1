@@ -9,11 +9,11 @@ import kotlinx.coroutines.launch
 class HomeAddModel(
     private val championRepository: ChampionRepository
 ): ViewModel(){
-fun addChampion(champion:ChampionModel){
-    viewModelScope.launch {
-        championRepository.create(champion)
+    fun addChampion(champion:ChampionModel){
+        viewModelScope.launch {
+            championRepository.create(champion)
+        }
     }
-}
 }
 
 

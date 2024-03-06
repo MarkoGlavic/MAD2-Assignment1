@@ -11,11 +11,17 @@ class ChampionRepository : ChampionStore {
     }
 
     override fun findOne(id: Long): ChampionModel? {
-        return champions.value.find { it.id == id }
+        return champions.value.find { it.id == id  }
     }
 
     override fun create(champion: ChampionModel) {
         champions.value += champion
+    }
+
+    override fun getChampionsForRole(roleId: Long): Flow<List<ChampionModel>> {
+        val championsForRole = champions.value.filter { it.id == roleId }
+        return MutableStateFlow(championsForRole)
+
     }
 }
 

@@ -18,6 +18,25 @@ class RoleAddModel(
 }
 
 
+data class RoleDetails(
+    val id: Long = 0,
+    val name: String = "",
+    val description: String = ""
+)
+
+fun RoleDetails.toItem(): RoleModel = RoleModel(
+    id = id,
+    name = name,
+    description = description,
+)
+
+fun RoleModel.roleDetails(): RoleDetails = RoleDetails(
+    id = id,
+    name = name,
+    description = description,
+)
+
+
 
 
 
