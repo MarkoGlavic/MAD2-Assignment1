@@ -57,7 +57,7 @@ fun RoleScreen(
 viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModelFactory)
 )
 {
-    val roleUiState by viewModel.roleUiState.collectAsState()
+    val homeUiState by viewModel.homeUiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
 
@@ -86,7 +86,7 @@ viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModel
             modifier = modifier.padding(innerPadding)
         )
         {
-            HomeBody(roleList = roleUiState.roleList, onItemClick = navigateToRole, modifier = modifier.padding(innerPadding))
+            HomeBody(roleList = homeUiState.roleList, onItemClick = navigateToRole, modifier = modifier.padding(innerPadding))
 
 
         }
@@ -181,25 +181,4 @@ private fun Role(
         }
     }
 
-    @Composable
-    fun DeleteConfirmationDialog(
-        onDeleteConfirm: () -> Unit,
-        onDeleteCancel: () -> Unit,
-        modifier: Modifier = Modifier
-    ) {
-        AlertDialog(onDismissRequest = { },
-            title = { Text(stringResource(R.string.attention)) },
-            text = { Text(stringResource(R.string.delete_question)) },
-            modifier = modifier,
-            dismissButton = {
-                TextButton(onClick = onDeleteCancel) {
-                    Text(stringResource(R.string.no))
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = onDeleteConfirm) {
-                    Text(stringResource(R.string.yes))
-                }
-            })
     }
-}

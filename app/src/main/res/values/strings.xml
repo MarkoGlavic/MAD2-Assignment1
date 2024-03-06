@@ -15,6 +15,10 @@
     <string name="attention">Attention</string>
     <string name="delete_question">Are you sure you want to delete?</string>
     <string name="delete">Delete</string>
+    <string name="champion_winRate"> Win Rate</string>
+    <string name="champion_name"> Name</string>
+    <string name="required_fields">*required fields</string>
+    <string name="save">Save</string>
 
 
 

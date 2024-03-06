@@ -7,6 +7,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -44,7 +46,7 @@ fun HomeAddScreen(navigateBack: () -> Unit, viewModel: HomeAddModel = viewModel(
                 title = stringResource(HomeDestination.titleRes),
                 canNavigateBack = true,
                 navigateUp = navigateBack
-                )
+            )
         },
 
         bottomBar = {
@@ -54,23 +56,35 @@ fun HomeAddScreen(navigateBack: () -> Unit, viewModel: HomeAddModel = viewModel(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(64.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 var championName by remember { mutableStateOf("") }
 
+
                 OutlinedTextField(
                     value = championName,
-                    onValueChange = { championName = it },
-                    label = { Text("Champion Name") }
+                    label = { Text(stringResource(R.string.champion_name)) },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Green,
+                        unfocusedBorderColor = Color.Yellow
+                    ),
+                    onValueChange = { championName = it }
+
                 )
 
                 var winRate by remember { mutableStateOf("") }
 
                 OutlinedTextField(
                     value = winRate,
-                    onValueChange = {winRate = it} )
+                    onValueChange = { winRate = it },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Green,
+                        unfocusedBorderColor = Color.Yellow
+                    ),
+                    label = { Text(stringResource(R.string.champion_winRate)) }
+                )
 
 
                 Button(
@@ -80,7 +94,7 @@ fun HomeAddScreen(navigateBack: () -> Unit, viewModel: HomeAddModel = viewModel(
                         navigateBack()
                     }
                 ) {
-                    Text(text = "Add Champion")
+                    Text(stringResource(R.string.add_champion))
                 }
             }
         }

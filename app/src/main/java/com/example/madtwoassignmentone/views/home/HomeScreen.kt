@@ -76,7 +76,7 @@ fun HomeScreen(
                 title = stringResource(HomeDestination.titleRes),
                 canNavigateBack = true,
                 navigateUp = navigateBack
-                )
+            )
         },
 
         bottomBar = {
@@ -85,8 +85,8 @@ fun HomeScreen(
 
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {navigateToAdd(0) } ) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
+                onClick = {navigateToAdd(homeUiState.championList.get(0).id) } ) {
+                Icon(Icons.Default.Add, contentDescription =  stringResource(R.string.add_champion))
             }
         }
     ) {

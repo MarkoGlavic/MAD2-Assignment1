@@ -14,12 +14,12 @@ import kotlinx.coroutines.flow.stateIn
 class RoleViewModel(private val roleRepository: RoleRepository): ViewModel() {
 
 
-    val roleUiState: StateFlow<RoleUiState> =
-        roleRepository.findAll().map { RoleUiState(it) }
+    val homeUiState: StateFlow<HomeUiState> =
+        roleRepository.findAll().map { HomeUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = RoleUiState()
+                initialValue = HomeUiState()
 
             )
 
@@ -45,4 +45,4 @@ class RoleViewModel(private val roleRepository: RoleRepository): ViewModel() {
 /**
  * Ui State for HomeScreen
  */
-data class RoleUiState(val roleList: List<RoleModel> = listOf())
+data class HomeUiState(val roleList: List<RoleModel> = listOf())

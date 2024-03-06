@@ -2,9 +2,13 @@ package com.example.madtwoassignmentone.views.role
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,11 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.madtwoassignmentone.BottomBar
@@ -29,6 +36,7 @@ import com.example.madtwoassignmentone.TopBar
 import com.example.madtwoassignmentone.ViewModelProvider
 import com.example.madtwoassignmentone.models.RoleModel
 import com.example.madtwoassignmentone.views.home.HomeDestination
+import kotlinx.coroutines.launch
 
 
 object RoleAddDestination : NavigationDestination {
@@ -44,6 +52,8 @@ fun RoleAddScreen(navigateBack: () -> Unit,
                   viewModel: RoleAddModel = viewModel(factory = ViewModelProvider().roleAddFactory)){
 
     var showDialog by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+
 
     Scaffold(
         topBar = {
@@ -57,76 +67,99 @@ fun RoleAddScreen(navigateBack: () -> Unit,
 
         bottomBar = {
                     BottomBar()
-        },
-        content = {
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(64.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    var roleName by remember { mutableStateOf("") }
-
-                    OutlinedTextField(
-                        value = roleName,
-                        label = { Text(stringResource(R.string.role_name)) },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color.Green,
-                            unfocusedBorderColor = Color.Yellow
-                        ),
-                        onValueChange = { roleName = it }
-
-                    )
-
-                    var description by remember { mutableStateOf("") }
-
-                    OutlinedTextField(
-                        value = description,
-                        onValueChange = { description = it },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color.Green,
-                            unfocusedBorderColor = Color.Yellow
-                        ),
-                        label = { Text(stringResource(R.string.role_desc)) }
-                    )
-
-
-
-                    Button(
-                        onClick = {
-                            if (roleName.isNotBlank() && description.isNotBlank()) {
-                                val role =
-                                    RoleModel(IdGenerator.generateId(), roleName, description)
-                                viewModel.addRole(role)
-                                navigateBack()
-                            } else {
-                                showDialog = true
-
-                            }
-                        }
-                    ) {
-                        Text(stringResource(R.string.add_role))
-                    }
-                    if (showDialog) {
-                        AlertDialog(
-                            onDismissRequest = { showDialog = false },
-                            title = { Text(stringResource(R.string.alert)) },
-                            text = { Text(stringResource(R.string.role_req)) },
-                            confirmButton = {
-                                TextButton(
-                                    onClick = { showDialog = false },
-                                ) {
-                                    Text(stringResource(R.string.ok))
-                                }
-                            })
-                    }
-
-
-
-            }
         }
     )
+    { innerPadding ->
+        RoleEntryBody(
+            roleUiState = viewModel.roleUiState,
+            onRoleValueChange = viewModel::updateUiState,
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.saveItem()
+                    navigateBack()
+
+                }
+            },
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun RoleEntryBody(
+    roleUiState: RoleUiState,
+    onRoleValueChange: (RoleDetails) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large)),
+        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+    ) {
+        RoleInputForm(
+            roleDetails = roleUiState.roleDetails,
+            onValueChange = onRoleValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            enabled = roleUiState.isEntryValid,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = stringResource(R.string.save))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RoleInputForm(
+    roleDetails: RoleDetails,
+    modifier: Modifier = Modifier,
+    onValueChange: (RoleDetails) -> Unit = {},
+    enabled: Boolean = true
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+    ) {
+        OutlinedTextField(
+            value = roleDetails.name,
+            onValueChange = { onValueChange(roleDetails.copy(name = it)) },
+            label = { Text(stringResource(R.string.role_name)) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Green,
+                unfocusedBorderColor = Color.Yellow
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = roleDetails.description,
+            onValueChange = { onValueChange(roleDetails.copy(description = it)) },
+            label = { Text(stringResource(R.string.role_desc)) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Green,
+                unfocusedBorderColor = Color.Yellow
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+
+
+        if (enabled) {
+            Text(
+                text = stringResource(R.string.required_fields),
+                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
+            )
+        }
+
+    }
 }
 
