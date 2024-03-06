@@ -31,11 +31,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.madtwoassignmentone.AppViewModelProvider
 import com.example.madtwoassignmentone.BottomBar
 import com.example.madtwoassignmentone.R
 import com.example.madtwoassignmentone.TopBar
-import com.example.madtwoassignmentone.ViewModelProvider
 import com.example.madtwoassignmentone.models.ChampionModel
 import com.example.madtwoassignmentone.models.RoleModel
 import com.example.madtwoassignmentone.navigation.NavigationDestination
@@ -53,10 +54,12 @@ fun RoleScreen(
     modifier: Modifier = Modifier,
     navigateToAdd: () -> Unit,
     navigateToRole:(Long) -> Unit,
+    viewModel: RoleViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModelFactory)
+
 )
 {
+
     val homeUiState by viewModel.homeUiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -78,6 +81,7 @@ viewModel: RoleViewModel = viewModel(factory = ViewModelProvider().roleViewModel
             FloatingActionButton(
                 onClick = navigateToAdd  ) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
+                println(viewModel.homeUiState.value.roleList)
             }
         }
     ) {

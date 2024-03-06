@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -41,8 +42,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.madtwoassignmentone.AppViewModelProvider
 import com.example.madtwoassignmentone.BottomBar
-import com.example.madtwoassignmentone.ViewModelProvider
 import com.example.madtwoassignmentone.views.home.HomeViewModel
 import com.example.madtwoassignmentone.R
 import com.example.madtwoassignmentone.TopBar
@@ -64,9 +65,15 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     navigateToAdd: (Long) -> Unit,
     navigateBack: () -> Unit,
-    viewModel: HomeViewModel = viewModel(factory = ViewModelProvider().homeViewModelFactory))
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory))
 {
-    val homeUiState by viewModel.homeUiState.collectAsState()
+
+
+
+    val uiState = viewModel.uiState.collectAsState()
+    val champions = viewModel.champions.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
 
@@ -85,7 +92,7 @@ fun HomeScreen(
 
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {navigateToAdd(homeUiState.championList.get(0).id) } ) {
+                onClick = {navigateToAdd(uiState.value.championDetails.id) } ) {
                 Icon(Icons.Default.Add, contentDescription =  stringResource(R.string.add_champion))
             }
         }
@@ -95,7 +102,7 @@ fun HomeScreen(
             modifier = modifier.padding(innerPadding)
         )
         {
-            HomeBody(championList = homeUiState.championList, onItemClick = {}, modifier = modifier.padding(innerPadding))
+            HomeBody(championList = champions.value, onItemClick = {}, modifier = modifier.padding(innerPadding))
         }}
 
 

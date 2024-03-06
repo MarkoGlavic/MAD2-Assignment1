@@ -29,13 +29,7 @@ class RoleViewModel(private val roleRepository: RoleRepository): ViewModel() {
 
     }
 
-    fun getRoleById(id: Long): RoleModel? {
-        return roleRepository.findOne(id)
-    }
 
-    fun deleteRole(roleId: Long) {
-        roleRepository.delete(roleId)
-    }
 
 }
 

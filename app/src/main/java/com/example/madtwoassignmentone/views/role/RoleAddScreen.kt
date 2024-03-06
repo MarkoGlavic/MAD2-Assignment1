@@ -27,13 +27,14 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.madtwoassignmentone.AppViewModelProvider
 import com.example.madtwoassignmentone.BottomBar
 import com.example.madtwoassignmentone.models.IdGenerator
 import com.example.madtwoassignmentone.navigation.NavigationDestination
 import com.example.madtwoassignmentone.R
 import com.example.madtwoassignmentone.TopBar
-import com.example.madtwoassignmentone.ViewModelProvider
 import com.example.madtwoassignmentone.models.RoleModel
 import com.example.madtwoassignmentone.views.home.HomeDestination
 import kotlinx.coroutines.launch
@@ -49,7 +50,10 @@ object RoleAddDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoleAddScreen(navigateBack: () -> Unit,
-                  viewModel: RoleAddModel = viewModel(factory = ViewModelProvider().roleAddFactory)){
+                  viewModel: RoleAddModel = viewModel(factory = AppViewModelProvider.Factory)
+
+){
+
 
     var showDialog by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()

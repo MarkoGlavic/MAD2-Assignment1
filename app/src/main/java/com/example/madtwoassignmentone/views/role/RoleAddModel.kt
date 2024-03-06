@@ -57,7 +57,7 @@ fun RoleDetails.toRole(): RoleModel = RoleModel(
 
 
 
-fun RoleModel.toRoleUistate(isEntryValid: Boolean = false): RoleUiState = RoleUiState(
+fun RoleModel.toRoleUiState(isEntryValid: Boolean = false): RoleUiState = RoleUiState(
     roleDetails = this.toRoleDetails(),
     isEntryValid = isEntryValid
 )
@@ -70,4 +70,3 @@ fun RoleModel.toRoleDetails(): RoleDetails = RoleDetails(
 )
 
 
-data class RoleAddUiState(val roleList: List<RoleModel> = listOf())
