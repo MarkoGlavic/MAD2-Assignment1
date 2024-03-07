@@ -10,7 +10,7 @@ data class ChampionModel(
 
 
 object IdGenerator {
-    private var nextId: Long = 1
+    private var nextId: Long = 0
 
     fun generateId(): Long {
         return nextId++

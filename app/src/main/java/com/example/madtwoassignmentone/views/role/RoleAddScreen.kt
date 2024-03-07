@@ -36,7 +36,6 @@ import com.example.madtwoassignmentone.navigation.NavigationDestination
 import com.example.madtwoassignmentone.R
 import com.example.madtwoassignmentone.TopBar
 import com.example.madtwoassignmentone.models.RoleModel
-import com.example.madtwoassignmentone.views.home.HomeDestination
 import kotlinx.coroutines.launch
 
 
@@ -62,7 +61,7 @@ fun RoleAddScreen(navigateBack: () -> Unit,
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(HomeDestination.titleRes),
+                title = stringResource(RoleAddDestination.titleRes),
                 canNavigateBack = true,
                 navigateUp = navigateBack
 

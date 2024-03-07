@@ -10,8 +10,6 @@ import com.example.madtwoassignmentone.models.ChampionRepository
 import com.example.madtwoassignmentone.models.ChampionRepositoryProvider
 import com.example.madtwoassignmentone.models.RoleRepository
 import com.example.madtwoassignmentone.models.RoleRepositoryProvider
-import com.example.madtwoassignmentone.views.home.HomeAddModel
-import com.example.madtwoassignmentone.views.home.HomeViewModel
 import com.example.madtwoassignmentone.views.role.RoleAddModel
 import com.example.madtwoassignmentone.views.role.RoleViewModel
 object AppViewModelProvider {
@@ -25,12 +23,7 @@ object AppViewModelProvider {
         initializer {
             RoleAddModel(roleRepository)
         }
-        initializer {
-            HomeViewModel(this.createSavedStateHandle(), roleRepository, championRepository)
-        }
-        initializer {
-            HomeAddModel(this.createSavedStateHandle(), roleRepository, championRepository)
-        }
+
     }
 
 }

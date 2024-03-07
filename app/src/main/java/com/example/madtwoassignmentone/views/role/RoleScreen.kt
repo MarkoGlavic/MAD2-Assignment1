@@ -40,8 +40,7 @@ import com.example.madtwoassignmentone.TopBar
 import com.example.madtwoassignmentone.models.ChampionModel
 import com.example.madtwoassignmentone.models.RoleModel
 import com.example.madtwoassignmentone.navigation.NavigationDestination
-import com.example.madtwoassignmentone.views.home.HomeDestination
-import com.example.madtwoassignmentone.views.home.HomeViewModel
+
 
 object RoleDestination : NavigationDestination {
     override val route = "role"
@@ -67,7 +66,7 @@ fun RoleScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(HomeDestination.titleRes),
+                title = stringResource(RoleDestination.titleRes),
                 canNavigateBack = false,
 
                 )

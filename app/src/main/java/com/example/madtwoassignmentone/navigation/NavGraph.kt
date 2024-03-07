@@ -11,10 +11,6 @@ import androidx.navigation.navArgument
 import com.example.madtwoassignmentone.models.ChampionRepository
 import com.example.madtwoassignmentone.views.StartDestination
 import com.example.madtwoassignmentone.views.StartScreen
-import com.example.madtwoassignmentone.views.home.HomeAddDestination
-import com.example.madtwoassignmentone.views.home.HomeAddScreen
-import com.example.madtwoassignmentone.views.home.HomeDestination
-import com.example.madtwoassignmentone.views.home.HomeScreen
 import com.example.madtwoassignmentone.views.role.RoleAddDestination
 import com.example.madtwoassignmentone.views.role.RoleAddScreen
 import com.example.madtwoassignmentone.views.role.RoleDestination
@@ -44,7 +40,7 @@ fun ToDoNavHost(
         composable(route = RoleDestination.route){
             RoleScreen(navigateToAdd = { navController.navigate(RoleAddDestination.route) },
                 navigateToRole ={
-                    navController.navigate("${HomeDestination.route}/${it}")
+
                 })
         }
         composable(route=RoleAddDestination.routeWithArgs){
@@ -52,27 +48,5 @@ fun ToDoNavHost(
             )
         }
 
-        composable(
-            route = HomeDestination.routeWithArgs,
-            arguments = listOf(navArgument(HomeDestination.championId) {
-                type = NavType.LongType
-            })
-        ) {
-            HomeScreen(navigateToAdd = {
-                navController.navigate("${HomeAddDestination.route}/$it")
-            },
-                navigateBack = { navController.popBackStack() }
-
-            )
-        }
-        composable(route = HomeAddDestination.routeWithArgs,
-            arguments = listOf(navArgument(HomeAddDestination.championIdArg) {
-                type = NavType.LongType
-            })
-        )
-        {
-            HomeAddScreen(navigateBack = {navController.popBackStack()}
-            )
-        }
     }
 }

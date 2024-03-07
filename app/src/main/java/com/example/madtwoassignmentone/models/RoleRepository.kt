@@ -39,3 +39,11 @@ object RoleRepositoryProvider {
         return roleRepository
     }
 }
+
+object IdGeneratorChampion {
+    private var nextId: Long = 0
+
+    fun generateId(): Long {
+        return nextId++
+    }
+}
