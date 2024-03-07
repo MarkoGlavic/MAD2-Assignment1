@@ -8,6 +8,9 @@ interface RoleStore {
     fun create(role : RoleModel)
     fun delete(role : RoleModel)
 
+    fun findOneName(string:String) :Flow<List<RoleModel>>
+
+    fun findWinRateAbove(int:Int): Flow<List<RoleModel>>
 
     fun getItemStream(long: Long): Flow<RoleModel?>
 

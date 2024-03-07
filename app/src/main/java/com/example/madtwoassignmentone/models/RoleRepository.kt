@@ -3,6 +3,7 @@ package com.example.madtwoassignmentone.models
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 
 class RoleRepository : RoleStore {
@@ -22,8 +23,9 @@ class RoleRepository : RoleStore {
 
     override fun getItemStream(long: Long): Flow<RoleModel?> {
         return flow {
-            emit(roles.value[long.toInt()])}
+            emit(roles.value[long.toInt()])
         }
+    }
 
     override fun delete(role: RoleModel) {
         roles.value = roles.value.filterNot { it == role }
@@ -51,6 +53,17 @@ class RoleRepository : RoleStore {
     }
 
 
+    override fun findOneName(string: String): Flow<List<RoleModel>> {
+        return roles.map { roleList ->
+            roleList.filter { it.name.contains(string, ignoreCase = true) }
+        }
+    }
+
+    override fun findWinRateAbove(winRate: Int): Flow<List<RoleModel>> {
+        return roles.map { roleList ->
+            roleList.filter { it.winRate >= winRate }
+        }
+    }
 }
 
 object RoleRepositoryProvider {

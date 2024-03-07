@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.madtwoassignmentone.models.RoleModel
 import com.example.madtwoassignmentone.models.RoleRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -28,6 +29,15 @@ class RoleViewModel(private val roleRepository: RoleRepository): ViewModel() {
         private const val TIMEOUT_MILLIS = 5_000L
 
     }
+
+    fun getName(name: String): Flow<List<RoleModel>> {
+        return roleRepository.findOneName(name)
+    }
+
+    fun getWinRate(winRate: Int): Flow<List<RoleModel>> {
+        return roleRepository.findWinRateAbove(winRate)
+    }
+
 
 
 

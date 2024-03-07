@@ -8,5 +8,4 @@ interface ChampionStore {
     fun create(champion : ChampionModel)
     fun getChampionsForRole(roleId: Long): Flow<List<ChampionModel>>
 
-
 }

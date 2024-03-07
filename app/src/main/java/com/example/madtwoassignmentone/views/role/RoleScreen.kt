@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
@@ -18,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -25,10 +27,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.createSavedStateHandle
@@ -40,7 +45,8 @@ import com.example.madtwoassignmentone.TopBar
 import com.example.madtwoassignmentone.models.ChampionModel
 import com.example.madtwoassignmentone.models.RoleModel
 import com.example.madtwoassignmentone.navigation.NavigationDestination
-
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 object RoleDestination : NavigationDestination {
     override val route = "role"
@@ -56,8 +62,23 @@ fun RoleScreen(
     viewModel: RoleViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
 
-)
-{
+) {
+    val uiState by viewModel.homeUiState.collectAsState()
+    val searchText = remember { mutableStateOf("") }
+    var selectedWinRate = remember { mutableStateOf(0) }
+
+
+    val filteredItems = if (searchText.value != "") {
+        viewModel.getName(searchText.value).collectAsState(initial = listOf()).value
+    } else {
+        uiState.roleList
+    }
+
+    val itemList = if (selectedWinRate.value > 0) {
+        viewModel.getWinRate(selectedWinRate.value).collectAsState(initial = listOf()).value
+    } else {
+        filteredItems
+    }
 
     val homeUiState by viewModel.homeUiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -68,8 +89,10 @@ fun RoleScreen(
             TopBar(
                 title = stringResource(RoleDestination.titleRes),
                 canNavigateBack = false,
+                scrollBehavior = scrollBehavior
 
-                )
+
+            )
         },
 
         bottomBar = {
@@ -78,31 +101,58 @@ fun RoleScreen(
 
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToAdd  ) {
+                onClick = navigateToAdd
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
                 println(viewModel.homeUiState.value.roleList)
             }
         }
-    ) {
-            innerPadding ->
+    ) { innerPadding ->
         Column(
             modifier = modifier.padding(innerPadding)
-        )
-        {
-            HomeBody(roleList = homeUiState.roleList, onItemClick = navigateToRole, modifier = modifier.padding(innerPadding))
+        ) {
+            OutlinedTextField(
+                value = searchText.value,
+                onValueChange = { newText ->
+                    searchText.value = newText
+                },
+                label = { Text(text = stringResource(R.string.search)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
 
+            OutlinedTextField(
+                value = selectedWinRate.value.toString(),
+                onValueChange = { newValue ->
+                    var score = newValue.toIntOrNull() ?: 0
+                    selectedWinRate.value = score
+                },
+                label = { Text(text = stringResource(id = R.string.champion_winRate)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
 
+            HomeBody(
+                roleList = itemList,
+                onItemClick = navigateToRole,
+                modifier = modifier.padding(innerPadding)
+            )
         }
 
-
-
-
     }
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -178,6 +228,11 @@ private fun Role(
             )
             Text(
                 text = role.description,
+                style = MaterialTheme.typography.titleLarge,
+            )
+
+            Text(
+                text = role.winRate.toString(),
                 style = MaterialTheme.typography.titleLarge,
             )
 
