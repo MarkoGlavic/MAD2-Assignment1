@@ -211,32 +211,26 @@ private fun RoleList(
 private fun Role(
     role: RoleModel, modifier: Modifier = Modifier
 ) {
-
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
-
             Text(
-                text = role.name,
+                text = "${stringResource(R.string.role_name_label)} ${role.name}",
                 style = MaterialTheme.typography.titleLarge,
             )
             Text(
-                text = role.description,
+                text = "${stringResource(R.string.role_description_label)} ${role.description}",
                 style = MaterialTheme.typography.titleLarge,
             )
-
             Text(
-                text = role.winRate.toString(),
+                text = "${stringResource(R.string.role_winrate_label)} ${role.winRate}",
                 style = MaterialTheme.typography.titleLarge,
             )
-
         }
     }
-
-    }
+}
