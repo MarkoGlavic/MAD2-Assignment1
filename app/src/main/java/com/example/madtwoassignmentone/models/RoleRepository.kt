@@ -25,8 +25,9 @@ class RoleRepository : RoleStore {
             emit(roles.value[long.toInt()])}
         }
 
-    override fun delete(roleId: Long) {
-        roles.value = roles.value.filterNot { it.id == roleId }
+    override fun delete(role: RoleModel) {
+        roles.value = roles.value.filterNot { it == role }
+
 
     }
 

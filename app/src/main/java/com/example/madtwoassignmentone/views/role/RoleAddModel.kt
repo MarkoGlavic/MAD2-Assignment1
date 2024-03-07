@@ -24,7 +24,7 @@ class RoleAddModel(
 
     private fun validateInput(uiState: RoleDetails = roleUiState.roleDetails): Boolean {
         return with(uiState) {
-            name.isNotBlank() && description.isNotBlank()
+            name.isNotBlank() && description.isNotBlank() && winRate != 0
         }
     }
 
@@ -45,6 +45,7 @@ data class RoleDetails(
     val id: Long = IdGenerator.generateId(),
     val name: String = "",
     val description: String = "",
+    val winRate : Int = 0
 )
 
 
@@ -52,6 +53,7 @@ fun RoleDetails.toRole(): RoleModel = RoleModel(
     id = id,
     name = name,
     description = description,
+    winRate = winRate,
 )
 
 
@@ -67,6 +69,8 @@ fun RoleModel.toRoleDetails(): RoleDetails = RoleDetails(
     id = id,
     name = name,
     description = description,
+    winRate = winRate
 )
+
 
 

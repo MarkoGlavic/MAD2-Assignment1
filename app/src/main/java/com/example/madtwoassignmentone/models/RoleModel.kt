@@ -2,11 +2,10 @@ package com.example.madtwoassignmentone.models
 
 
 data class RoleModel(
-    var id: Long = 0,
+    var id: Long = IdGenerator.generateId(),
     var name: String ="",
     var description: String="",
-    var roleChampions: ArrayList<ChampionModel> = ArrayList<ChampionModel>()
-
+    var winRate: Int = 0
 )
 
 

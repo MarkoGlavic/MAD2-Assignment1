@@ -14,6 +14,9 @@ import com.example.madtwoassignmentone.views.StartScreen
 import com.example.madtwoassignmentone.views.role.RoleAddDestination
 import com.example.madtwoassignmentone.views.role.RoleAddScreen
 import com.example.madtwoassignmentone.views.role.RoleDestination
+import com.example.madtwoassignmentone.views.role.RoleDetails
+import com.example.madtwoassignmentone.views.role.RoleDetailsDestination
+import com.example.madtwoassignmentone.views.role.RoleDetailsScreen
 import com.example.madtwoassignmentone.views.role.RoleScreen
 
 
@@ -40,12 +43,26 @@ fun ToDoNavHost(
         composable(route = RoleDestination.route){
             RoleScreen(navigateToAdd = { navController.navigate(RoleAddDestination.route) },
                 navigateToRole ={
+navController.navigate("${RoleDetailsDestination.route}/${it}")
 
                 })
         }
         composable(route=RoleAddDestination.routeWithArgs){
             RoleAddScreen(navigateBack = { navController.popBackStack() },
             )
+        }
+
+        composable(
+            route = RoleDetailsDestination.routeWithArgs,
+            arguments = listOf(navArgument(RoleDetailsDestination.roleIdArg) {
+                type = NavType.LongType
+            })
+        ) {
+            RoleDetailsScreen(
+                navigateToEditRole = {  },
+                navigateBack = { navController.navigateUp() },
+
+                )
         }
 
     }

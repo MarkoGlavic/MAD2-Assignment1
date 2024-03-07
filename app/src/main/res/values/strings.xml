@@ -19,6 +19,12 @@
     <string name="champion_name"> Name</string>
     <string name="required_fields">*required fields</string>
     <string name="save">Save</string>
+    <string name="role">Role</string>
+    <string name="edit">Edit</string>
+    <string name="role_details">Role Details</string>
+
+
+
 
 
 

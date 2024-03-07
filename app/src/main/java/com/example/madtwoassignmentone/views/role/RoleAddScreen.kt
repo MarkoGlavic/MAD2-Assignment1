@@ -1,6 +1,7 @@
 package com.example.madtwoassignmentone.views.role
 
 import android.annotation.SuppressLint
+import android.widget.NumberPicker
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -154,6 +155,20 @@ fun RoleInputForm(
             enabled = enabled,
             singleLine = true
         )
+
+        OutlinedTextField(value = roleDetails.winRate.toString(),
+            onValueChange ={onValueChange(roleDetails.copy(winRate = it.toInt()))},
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            label = { Text(stringResource(R.string.champion_winRate)) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Green,
+                unfocusedBorderColor = Color.Yellow
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true)
+
+
 
 
         if (enabled) {

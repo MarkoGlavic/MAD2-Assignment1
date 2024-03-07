@@ -11,9 +11,9 @@ import com.example.madtwoassignmentone.models.ChampionRepositoryProvider
 import com.example.madtwoassignmentone.models.RoleRepository
 import com.example.madtwoassignmentone.models.RoleRepositoryProvider
 import com.example.madtwoassignmentone.views.role.RoleAddModel
+import com.example.madtwoassignmentone.views.role.RoleDetailsModel
 import com.example.madtwoassignmentone.views.role.RoleViewModel
 object AppViewModelProvider {
-    private val championRepository = ChampionRepositoryProvider.provideChampionRepository()
     private val roleRepository = RoleRepositoryProvider.provideRoleRepository()
 
     val Factory = viewModelFactory {
@@ -23,6 +23,10 @@ object AppViewModelProvider {
         initializer {
             RoleAddModel(roleRepository)
         }
+        initializer {
+            RoleDetailsModel(this.createSavedStateHandle(),roleRepository)
+        }
+
 
     }
 
