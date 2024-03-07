@@ -4,6 +4,7 @@ package com.example.madtwoassignmentone.views.role
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.semantics.Role
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.madtwoassignmentone.models.IdGenerator
@@ -71,6 +72,9 @@ fun RoleModel.toRoleDetails(): RoleDetails = RoleDetails(
     description = description,
     winRate = winRate
 )
+
+
+
 
 
 

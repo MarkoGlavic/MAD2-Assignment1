@@ -89,7 +89,8 @@ fun RoleDetailsScreen(
                     },
                     onEdit = {
                         navigateToEditRole(uiState.value.roleDetails.id)
-                    }
+                    },
+
                 )
 
             }

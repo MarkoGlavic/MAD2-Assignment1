@@ -12,6 +12,8 @@ class ChampionRepository : ChampionStore {
 
     override fun findOne(id: Long): ChampionModel? {
         return champions.value.find { it.id == id  }
+
+
     }
 
     override fun create(champion: ChampionModel) {

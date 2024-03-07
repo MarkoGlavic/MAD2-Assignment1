@@ -17,6 +17,9 @@ import com.example.madtwoassignmentone.views.role.RoleDestination
 import com.example.madtwoassignmentone.views.role.RoleDetails
 import com.example.madtwoassignmentone.views.role.RoleDetailsDestination
 import com.example.madtwoassignmentone.views.role.RoleDetailsScreen
+import com.example.madtwoassignmentone.views.role.RoleEditDestination
+import com.example.madtwoassignmentone.views.role.RoleEditScreen
+import com.example.madtwoassignmentone.views.role.RoleEntryBody
 import com.example.madtwoassignmentone.views.role.RoleScreen
 
 
@@ -59,10 +62,23 @@ navController.navigate("${RoleDetailsDestination.route}/${it}")
             })
         ) {
             RoleDetailsScreen(
-                navigateToEditRole = {  },
+                navigateToEditRole = { navController.navigate("${RoleEditDestination.route}/$it") },
                 navigateBack = { navController.navigateUp() },
 
                 )
+        }
+
+        composable(
+            route = RoleEditDestination.routeWithArgs,
+            arguments = listOf(navArgument(RoleEditDestination.roleIdArg) {
+                type = NavType.LongType
+            })
+        ) {
+
+            RoleEditScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
         }
 
     }

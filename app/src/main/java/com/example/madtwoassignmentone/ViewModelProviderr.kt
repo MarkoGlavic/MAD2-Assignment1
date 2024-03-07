@@ -12,6 +12,7 @@ import com.example.madtwoassignmentone.models.RoleRepository
 import com.example.madtwoassignmentone.models.RoleRepositoryProvider
 import com.example.madtwoassignmentone.views.role.RoleAddModel
 import com.example.madtwoassignmentone.views.role.RoleDetailsModel
+import com.example.madtwoassignmentone.views.role.RoleEditModel
 import com.example.madtwoassignmentone.views.role.RoleViewModel
 object AppViewModelProvider {
     private val roleRepository = RoleRepositoryProvider.provideRoleRepository()
@@ -25,6 +26,9 @@ object AppViewModelProvider {
         }
         initializer {
             RoleDetailsModel(this.createSavedStateHandle(),roleRepository)
+        }
+        initializer {
+            RoleEditModel(this.createSavedStateHandle(),roleRepository)
         }
 
 

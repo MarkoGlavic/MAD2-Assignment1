@@ -28,8 +28,28 @@ class RoleRepository : RoleStore {
     override fun delete(role: RoleModel) {
         roles.value = roles.value.filterNot { it == role }
 
+        roles.value = roles.value.mapIndexed { index, existingRole ->
+            if (existingRole.id != role.id) {
+                existingRole.copy(id = index.toLong())
+            } else {
+                existingRole
+            }
+        }
 
     }
+
+    fun update(role: RoleModel) {
+        roles.value = roles.value.map { existingRole ->
+            if (existingRole.id == role.id) {
+                role.copy(name = existingRole.name)
+                role.copy(description = existingRole.description)
+                role.copy(winRate = existingRole.winRate)
+            } else {
+                existingRole
+            }
+        }
+    }
+
 
 }
 

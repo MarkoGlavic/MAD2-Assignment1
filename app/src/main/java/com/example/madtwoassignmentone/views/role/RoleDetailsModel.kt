@@ -1,5 +1,6 @@
 package com.example.madtwoassignmentone.views.role
 
+import androidx.compose.ui.semantics.Role
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,16 +17,14 @@ class RoleDetailsModel(
     ) : ViewModel(){
     private val roleId: Long = checkNotNull(savedStateHandle[RoleDetailsDestination.roleIdArg])
 
-    val uiState: StateFlow<RoleDetailsUiState> =
-        roleRepository.getItemStream(roleId)
-            .filterNotNull()
-            .map {
-                RoleDetailsUiState(roleDetails = it.toRoleDetails())
-            }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = RoleDetailsUiState()
-            )
+    val uiState: StateFlow<RoleDetailsUiState> = roleRepository.getItemStream(roleId)
+        .filterNotNull()
+        .map { RoleDetailsUiState(roleDetails = it.toRoleDetails()) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+            initialValue = RoleDetailsUiState()
+        )
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
